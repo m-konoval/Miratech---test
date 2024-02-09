@@ -1,28 +1,28 @@
-import {InterpreterFrom, MachineOptions, assign, createMachine} from 'xstate';
-import {NavigationProp} from '@react-navigation/native';
-import {Task} from '../models/Task';
-import {RootStackParamList} from '../navigation/Navigation';
+import { InterpreterFrom, MachineOptions, assign, createMachine } from "xstate";
+import { Task } from "../models/Task";
+import { RootStackNavigationProp } from "../navigation/Navigation";
+import { EScreens } from "../constants/common";
 
 export type GlobalService = InterpreterFrom<typeof globalController>;
 
 type GlobalContext = {
-  currentTasks: [Task];
-  completedTasks: [Task];
+  currentTasks: Task[];
+  completedTasks: Task[];
   currentTask?: Task;
-  navigationController: NavigationProp<RootStackParamList>;
+  navigationController: RootStackNavigationProp<EScreens>;
 };
 
 type GlobalEvents =
-  | {type: 'SHOW_EDITOR'}
-  | {type: 'SAVE'; taskID?: string}
-  | {type: 'CANCEL'}
-  | {type: 'EDIT'; data: Partial<Task>};
+  | { type: "SHOW_EDITOR" }
+  | { type: "SAVE"; taskID?: string }
+  | { type: "CANCEL" }
+  | { type: "EDIT"; data: Partial<Task> };
 
-const actions: MachineOptions<GlobalContext, GlobalEvents>['actions'] = {
+const actions: MachineOptions<GlobalContext, GlobalEvents>["actions"] = {
   openTaskEditor: (ctx, _) =>
-    ctx.navigationController.navigate('TaskEditor' as any),
+    ctx.navigationController.navigate("TaskEditor" as any),
   editTask: assign((ctx, e) => {
-    if (e.type !== 'EDIT') {
+    if (e.type !== "EDIT") {
       return {};
     }
     const currentTask = {
@@ -34,7 +34,7 @@ const actions: MachineOptions<GlobalContext, GlobalEvents>['actions'] = {
     };
   }),
   saveNewTask: assign((ctx, e) => {
-    if (e.type !== 'SAVE') {
+    if (e.type !== "SAVE") {
       return {};
     }
     if (!e.taskID && ctx.currentTask) {
@@ -46,7 +46,7 @@ const actions: MachineOptions<GlobalContext, GlobalEvents>['actions'] = {
       };
       const updatedTasks = [...ctx.currentTasks, newTask];
       return {
-        currentTasks: updatedTasks as [Task],
+        currentTasks: updatedTasks,
         currentTask: undefined,
       };
     }
@@ -64,28 +64,28 @@ export const globalController = createMachine(
       events: {} as GlobalEvents,
     },
     predictableActionArguments: true,
-    initial: 'idle',
+    initial: "idle",
     states: {
       idle: {
         on: {
           SHOW_EDITOR: {
-            target: 'editing',
-            actions: 'openTaskEditor',
+            target: "editing",
+            actions: "openTaskEditor",
           },
         },
       },
       editing: {
         on: {
           EDIT: {
-            actions: 'editTask',
+            actions: "editTask",
           },
           SAVE: {
-            actions: 'saveNewTask',
-            target: 'idle',
+            actions: "saveNewTask",
+            target: "idle",
           },
           CANCEL: {
-            target: 'idle',
-            actions: 'dismissTaskEditor',
+            target: "idle",
+            actions: "dismissTaskEditor",
           },
         },
       },
@@ -93,5 +93,5 @@ export const globalController = createMachine(
   },
   {
     actions,
-  },
+  }
 );

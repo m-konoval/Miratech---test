@@ -1,4 +1,4 @@
-import _mockData from '../../MOCK_DATA.json';
+import _mockData from "../../MOCK_DATA.json";
 export type Task = {
   id: string;
   title: string;
@@ -6,6 +6,6 @@ export type Task = {
   completed: boolean;
 };
 
-const mockData: [Task] = _mockData as [Task];
+const mockData: Task[] = _mockData as Task[];
 
-export {mockData};
+export { mockData };

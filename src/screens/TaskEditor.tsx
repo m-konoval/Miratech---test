@@ -1,22 +1,25 @@
-import React, {useEffect} from 'react';
-import {View, TextInput, StyleSheet, Button} from 'react-native';
-import {useGlobalActorRef, useGlobalSelector} from '../contexts/GlobalContext';
+import React, { useEffect } from "react";
+import { View, TextInput, StyleSheet, Button } from "react-native";
+import {
+  useGlobalActorRef,
+  useGlobalSelector,
+} from "../contexts/GlobalContext";
 
 export const TaskEditor = () => {
-  const {send} = useGlobalActorRef();
-  const currentTask = useGlobalSelector(state => state.context.currentTask);
+  const { send } = useGlobalActorRef();
+  const currentTask = useGlobalSelector((state) => state.context.currentTask);
 
   useEffect(() => {
-    return () => send('CANCEL');
+    return () => send("CANCEL");
   }, [send]);
 
   const handleEditTitle = (text: string) =>
-    send({type: 'EDIT', data: {title: text}});
+    send({ type: "EDIT", data: { title: text } });
   const handleEditDescription = (text: string) =>
-    send({type: 'EDIT', data: {description: text}});
+    send({ type: "EDIT", data: { description: text } });
 
-  const handleSave = () => send({type: 'SAVE', taskID: undefined});
-  const handleCancel = () => send({type: 'CANCEL'});
+  const handleSave = () => send({ type: "SAVE", taskID: undefined });
+  const handleCancel = () => send({ type: "CANCEL" });
 
   return (
     <View style={styles.container}>
@@ -30,7 +33,7 @@ export const TaskEditor = () => {
         style={[styles.textInput, styles.description]}
         multiline
         placeholder="Description"
-        value={currentTask?.description ?? ''}
+        value={currentTask?.description ?? ""}
         onChangeText={handleEditDescription}
       />
       <View>
@@ -44,13 +47,13 @@ export const TaskEditor = () => {
 const styles = StyleSheet.create({
   container: {
     rowGap: 8,
-    height: '75%',
+    height: "75%",
     padding: 4,
   },
   textInput: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: "gray",
     padding: 2,
   },
   description: {
