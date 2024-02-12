@@ -4,7 +4,6 @@ import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
 } from "@react-navigation/native-stack";
-import { Text } from "react-native";
 import { History } from "../screens/History";
 import { TaskEditor } from "../screens/TaskEditor";
 import { TasksList } from "../screens/TasksList";

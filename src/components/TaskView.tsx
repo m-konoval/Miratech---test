@@ -60,21 +60,20 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 8,
     paddingVertical: 10,
-    backgroundColor: "white",
+    backgroundColor: "#fff",
+    shadowColor: "rgba(0, 0, 0, 1)",
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 5,
+      width: 0,
+    },
 
     ...Platform.select({
       ios: {
-        shadowColor: "rgba(0, 0, 0, 1)",
-        shadowOpacity: 0.2,
         shadowRadius: 5,
-        shadowOffset: {
-          height: 5,
-          width: 0,
-        },
       },
       android: {
         elevation: 5,
-        backgroundColor: "rgba(0, 0, 0, 1)",
       },
     }),
   },
