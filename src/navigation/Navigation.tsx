@@ -4,13 +4,15 @@ import {
   NativeStackNavigationProp,
   createNativeStackNavigator,
 } from "@react-navigation/native-stack";
-import { Button, Text } from "react-native";
+import { Text } from "react-native";
 import { History } from "../screens/History";
 import { TaskEditor } from "../screens/TaskEditor";
 import { TasksList } from "../screens/TasksList";
 import { Settings } from "../screens/Settings";
-import { useGlobalActorRef } from "../contexts/GlobalContext";
 import { EScreens } from "../constants/common";
+import TodoListIcon from "../../assets/icons/todoList.svg";
+import HistoryIcon from "../../assets/icons/undo.svg";
+import SettingsIcon from "../../assets/icons/settings.svg";
 
 type RootStackParamList = {
   [EScreens.TaskEditor]: {};
@@ -20,49 +22,60 @@ type RootStackParamList = {
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => (
-  <Tab.Navigator
-    screenOptions={{ headerShown: false }}
-    sceneContainerStyle={{ margin: 12 }}
-  >
+  <Tab.Navigator screenOptions={{ headerShown: false }}>
     <Tab.Screen
       name="List"
       component={TasksList}
       options={{
-        tabBarIcon: () => <Text style={{ fontSize: 32 }}>≔</Text>,
+        tabBarIcon: (state) => (
+          <TodoListIcon
+            width={state.size}
+            height={state.size}
+            color={state.color}
+          />
+        ),
       }}
     />
     <Tab.Screen
       name="History"
       component={History}
-      options={{ tabBarIcon: () => <Text style={{ fontSize: 32 }}>↩︎</Text> }}
+      options={{
+        tabBarIcon: (state) => (
+          <HistoryIcon
+            width={state.size}
+            height={state.size}
+            color={state.color}
+          />
+        ),
+      }}
     />
     <Tab.Screen
       name="Settings"
       component={Settings}
-      options={{ tabBarIcon: () => <Text style={{ fontSize: 32 }}>⚙︎</Text> }}
+      options={{
+        tabBarIcon: (state) => {
+          return (
+            <SettingsIcon
+              width={state.size}
+              height={state.size}
+              color={state.color}
+            />
+          );
+        },
+      }}
     />
   </Tab.Navigator>
 );
-
-const AddNewTask = () => {
-  const { send } = useGlobalActorRef();
-
-  return <Button title="Add new task" onPress={() => send("SHOW_EDITOR")} />;
-};
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export const MainNavigation = () => (
   <RootStack.Navigator
     screenOptions={{
-      headerTitle: "🗓️",
+      headerShown: false,
     }}
   >
-    <RootStack.Group
-      screenOptions={{
-        headerRight: AddNewTask,
-      }}
-    >
+    <RootStack.Group>
       <RootStack.Screen name={EScreens.Tabs} component={Tabs} />
     </RootStack.Group>
 

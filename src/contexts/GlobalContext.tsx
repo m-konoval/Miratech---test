@@ -18,8 +18,7 @@ const GlobalStateProvider = (props: PropsWithChildren) => {
     <GlobalStateContext.Provider
       machine={globalController.withContext({
         navigationController: navigation,
-        currentTasks: mockData,
-        completedTasks: [],
+        tasks: mockData,
       })}
     >
       {props.children}
