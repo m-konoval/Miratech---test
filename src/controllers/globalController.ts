@@ -35,7 +35,7 @@ const actions: MachineOptions<GlobalContext, GlobalEvents>["actions"] = {
       ? {
           currentTask: ctx.tasks.find(({ id }) => id === e.taskID),
         }
-      : {};
+      : { currentTask: undefined };
   }),
   editTask: assign((ctx, e) => {
     if (e.type !== "EDIT") return {};
@@ -58,8 +58,6 @@ const actions: MachineOptions<GlobalContext, GlobalEvents>["actions"] = {
       description: ctx.currentTask.description,
       completed: false,
     };
-
-    console.log("SAVE", task);
 
     return {
       tasks: [...ctx.tasks, task],
@@ -122,7 +120,6 @@ const actions: MachineOptions<GlobalContext, GlobalEvents>["actions"] = {
 
 export const globalController = createMachine(
   {
-    /** @xstate-layout N4IgpgJg5mDOIC5QAoC2BDAxgCwJYDswBKAOlwgBswBiAZQAkB5AdQH0BRAEQEkAVRgEoBtAAwBdRKAAOAe1i4ALrhn5JIAB6IAnABYSAVgDMhkVq0B2AIwAma+YAc5wwBoQAT0QBaLfZI6Rhvr2WvqWoYE2AL6RrmhYeISk5FTU-ADiaQAy7Ky8AIK0ANKiEkggsvJKKmqaCEEiJCL+AGz6+taWzc3mzVquHgg61vokIT765lZdTubRsRg4BMQkkIoEUNRcfCVqFWvVZbWe9s0khtaGlvYdhvbn1839XrdnWpYBATqWxifNcyBxRaJFYQNb4Da0PIANXYOzKeyqqkOiGsIlO+hE9kxhi6YTRwyeCBMWgMjhE5hE1ma1ypllmMQBCwSy1WSnB1AAwnkAHIc9iZOHSOT7JGgI4kobNazBMJBDHBfSE5pNEjXHTNIZNQJaaz-QHM0gAVykEHQbI2AFUAAqcPK8HL5Iq0QXlYWImqINq+Qy6ELtDptQmo8yNVo+BVBTpdaIM-AyCBwNT6pZEXZu5SijReb56c6Xa7fO7SqmEzxXEY6CyGKwBE5vez2PVMlNkShgNOVDMewbWEmTWx2HGWIbSoNaBr6HQ6BsiTpDc5NJvxFus9YdkXd-x+T6zuzYnT6PruRCGLf2KchE52JzUpdA5bG03m9fu5EIHoT4fyyw2C6B49EhcJDvNYB7kiY5gXFSMaREAA */
     schema: {
       context: {} as GlobalContext,
       events: {} as GlobalEvents,

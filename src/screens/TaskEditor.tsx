@@ -14,7 +14,7 @@ export const TaskEditor = () => {
   const { bottom } = useSafeAreaInsets();
 
   const isValidTitle = useMemo(
-    () => Boolean(currentTask?.title && currentTask?.title?.length <= 40),
+    () => Boolean(!currentTask?.title || currentTask?.title?.length <= 40),
     [currentTask?.title]
   );
 
